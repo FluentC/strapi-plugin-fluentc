@@ -1,9 +1,9 @@
 {
   "name": "strapi-plugin-fluentc",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "FluentC Strapi plugin for translation",
   "strapi": {
-    "name": "FluentC",
+    "name": "strapi-plugin-fluentc",
     "description": "FluentC Strapi plugin for translation",
     "kind": "plugin"
   },
