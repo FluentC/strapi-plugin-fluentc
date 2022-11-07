@@ -1,0 +1,41 @@
+{
+  "name": "strapi-plugin-fluentc",
+  "version": "1.0.3",
+  "description": "FluentC Strapi plugin for translation",
+  "strapi": {
+    "name": "FluentC",
+    "description": "FluentC Strapi plugin for translation",
+    "kind": "plugin"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.1",
+    "axios": "^0.26.0",
+    "graphql": "^16.6.0"
+  },
+  "peerDependencies": {
+    "@strapi/plugin-i18n": "^4.1.4",
+    "@strapi/strapi": "^4.1.4"
+  },
+  "maintainers": [],
+  "engines": {
+    "node": ">=14 <=16",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT",
+  "keywords": [
+    "strapi",
+    "plugin",
+    "fluentc",
+    "translation",
+    "i18n"
+  ],
+  "devDependencies": {
+    "@faker-js/faker": "^6.2.0",
+    "@strapi/plugin-i18n": "^4.1.5",
+    "axios-mock-adapter": "^1.20.0",
+    "jest": "^27.5.1"
+  }
+}

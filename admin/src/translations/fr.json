@@ -1,0 +1,17 @@
+{
+  "CMEditViewTranslateLocale.translate-success": "Copié et traduit d'une autre locale!",
+  "CMEditViewTranslateLocale.translate-failure": "Échec de la traduction de la locale",
+  "CMEditViewTranslateLocale.translate-text": "Traduire d'une autre langue",
+  "CMEditViewTranslateLocale.ModalConfirm.content": "Votre contenu actuel sera effacé et remplacé par le contenu traduit de la région sélectionnée:",
+  "CMEditViewTranslateLocale.submit-text": "Oui, remplissez",
+  "plugin.name": "FluentC",
+  "Settings.locales.modal.locales.label": "Locales",
+  "popUpWarning.button.cancel": "Non, annuler",
+  "fluentc.error.badRequest": "Mauvaise demande à l'API FluentC",
+  "fluentc.error.forbidden": "L'autorisation à l'API FluentC a échoué",
+  "fluentc.error.notFound": "La ressource demandée est introuvable dans l'API FluentC",
+  "fluentc.error.payloadTooLarge": "La taille de la demande dépasse la limite dans l'API FluentC",
+  "fluentc.error.uriTooLong": "URI à long terme dans FluentC API",
+  "fluentc.error.tooManyRequests": "Trop de demandes à l'API FluentC",
+  "fluentc.error.paymentRequired": "Le quota de FluentC API est dépassé"
+}
