@@ -116,11 +116,7 @@ const Content = ({
   const getContents = (cleanedData) => {
     return Object.keys(cleanedData)
       .map((itm) => {
-        if (
-          ["createdBy", "updatedBy", "publishedAt", "id", "createdAt"].indexOf(
-            itm
-          ) > -1
-        )
+        if (["createdBy", "updatedBy", "publishedAt", "id", "createdAt"].indexOf(itm) > -1)
           return "";
         return cleanedData[itm];
       })
@@ -129,14 +125,10 @@ const Content = ({
   const setContents = (cleanedData, res) => {
     const ret = { ...cleanedData };
     const keys = Object.keys(ret);
+    console.log('setContents');
     for (let i = 0; i < keys.length; i++) {
       const itm = keys[i];
-      if (
-        ["createdBy", "updatedBy", "publishedAt", "id", "createdAt"].indexOf(
-          itm
-        ) > -1 ||
-        typeof ret[itm] !== "string"
-      ) {
+      if (typeof ret[itm] !== "string") {
         ret[itm] = cleanedData[itm];
         continue;
       }
@@ -147,6 +139,10 @@ const Content = ({
         ret[itm] = res[idx].translatedText;
       }
     }
+    ['createdBy', 'updatedBy', 'publishedAt', 'id', 'createdAt'].forEach((key) => {
+      if (!initialData[key]) return;
+      ret[key] = initialData[key];
+    });
     return ret;
   };
 
@@ -179,7 +175,6 @@ const Content = ({
 
     try {
       const requestDataURL = `/content-manager/collection-types/${slug}/${value}`;
-      // const translateURL = `/fluentc/translate`
 
       const { data: response } = await axiosInstance.get(requestDataURL);
 
@@ -215,9 +210,13 @@ const Content = ({
           } else {
             showErrNoti(res.error?.message);
           }
+
+          setIsLoading(false);
+          handleToggle();
         })
         .catch((err) => {
           showErrNoti(err.message);
+          setIsLoading(false);
         });
 
       // FIXME: Two issues here
@@ -225,10 +224,8 @@ const Content = ({
       // - The dispatch updates not just modified data but also the initial data
       //   -> Saving is impossible until manual modification if object already existed
     } catch (err) {
-    } finally {
       setIsLoading(false);
-      handleToggle();
-    }
+    } 
   };
 
   const handleChange = (value) => {
@@ -273,7 +270,7 @@ const Content = ({
       {isOpen && (
         <Dialog onClose={handleToggle} title="Confirmation" isOpen={isOpen}>
           <DialogBody icon={<ExclamationMarkCircle />}>
-            <Stack size={2}>
+            <Stack>
               <Flex justifyContent="center">
                 <CenteredTypography id="confirm-description">
                   {formatMessage({
