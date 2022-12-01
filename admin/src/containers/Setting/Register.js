@@ -166,7 +166,7 @@ const Register = (props) => {
       <Box style={{ width: "600px", height: "400px", padding: "10px 20px" }}>
         <Flex justifyContent="space-between">
           <img
-            src="http://crowdflare-staging.nyc3.cdn.digitaloceanspaces.com/delete-fluentc/no-background.png"
+            src="https://crowdflare-staging.nyc3.cdn.digitaloceanspaces.com/delete-fluentc/no-background.png"
             style={{ maxWidth: "100%" }}
             width={130}
             alt="logodash"
@@ -222,7 +222,7 @@ const Register = (props) => {
           >
             <Flex justifyContent="space-between">
               <img
-                src="http://crowdflare-staging.nyc3.cdn.digitaloceanspaces.com/delete-fluentc/no-background.png"
+                src="https://crowdflare-staging.nyc3.cdn.digitaloceanspaces.com/delete-fluentc/no-background.png"
                 style={{ maxWidth: "100%" }}
                 width={100}
                 alt="logodash"

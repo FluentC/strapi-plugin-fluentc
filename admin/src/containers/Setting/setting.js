@@ -137,7 +137,7 @@ const Setting = () => {
                   }
                 >
                   <img
-                    src="http://crowdflare-staging.nyc3.cdn.digitaloceanspaces.com/delete-fluentc/no-background.png"
+                    src="https://crowdflare-staging.nyc3.cdn.digitaloceanspaces.com/delete-fluentc/no-background.png"
                     style={{ maxWidth: "100%" }}
                     width={400}
                     alt="logodash"
