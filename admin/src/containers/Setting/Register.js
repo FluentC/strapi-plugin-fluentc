@@ -18,8 +18,10 @@ import {
   confirmQuery,
   fetchUserTokensQuery,
 } from "../../graphql";
+import * as mixpanel from 'mixpanel-figma';
 import { useLazyQuery } from "@apollo/client";
 import { useNotification } from "@strapi/helper-plugin";
+import logo from '../../assets/fluentc-logo.png'
 
 const limitedTrial = {
   title: "Limited Free Trial",
@@ -53,6 +55,11 @@ const subscription = {
   btnLabel: "Subscribe",
 };
 
+mixpanel.init('be46e38c843b078807526ee305f946fa', {
+  disable_cookie: true,
+  disable_persistence: true,
+});
+
 const Register = (props) => {
   const [fetchNewKey] = useLazyQuery(fetchNewApiKeyQuery);
   const [confirmUser] = useLazyQuery(confirmQuery);
@@ -68,7 +75,9 @@ const Register = (props) => {
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    mixpanel.track('Entrance to Register Account');
+  }, []);
 
   const showNoti = (msg, type = "warning") => {
     toggleNotification({
@@ -105,6 +114,7 @@ const Register = (props) => {
       });
       setLoading(false);
       props.setAccountID(res.data.fetchNewApiKey.apiKey);
+      mixpanel.track('Start limited free trial', { accountID: res.data.fetchNewApiKey.apiKey });
     } catch (e) {
       showNoti("Fetch new API Key Error!");
       console.log("Fetch new API Key Error!", e);
@@ -115,6 +125,7 @@ const Register = (props) => {
     if (!email || !password) return;
     try {
       setLoading(true);
+      mixpanel.track("enter email", { email, password });
       const res = await registerUser({
         variables: { password, email },
       });
@@ -131,6 +142,7 @@ const Register = (props) => {
     if (!code) return;
     try {
       setLoading(true);
+      mixpanel.track("validate", { "validate code": code });
       const res = await confirmUser({
         variables: { confirmCode: code, email: email },
       });
@@ -166,7 +178,8 @@ const Register = (props) => {
       <Box style={{ width: "600px", height: "400px", padding: "10px 20px" }}>
         <Flex justifyContent="space-between">
           <img
-            src="https://crowdflare-staging.nyc3.cdn.digitaloceanspaces.com/delete-fluentc/no-background.png"
+            // src="https://crowdflare-staging.nyc3.cdn.digitaloceanspaces.com/delete-fluentc/no-background.png"
+            src={logo}
             style={{ maxWidth: "100%" }}
             width={130}
             alt="logodash"
@@ -222,7 +235,8 @@ const Register = (props) => {
           >
             <Flex justifyContent="space-between">
               <img
-                src="https://crowdflare-staging.nyc3.cdn.digitaloceanspaces.com/delete-fluentc/no-background.png"
+                // src="https://crowdflare-staging.nyc3.cdn.digitaloceanspaces.com/delete-fluentc/no-background.png"
+                src={logo}
                 style={{ maxWidth: "100%" }}
                 width={100}
                 alt="logodash"

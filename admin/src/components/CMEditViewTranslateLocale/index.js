@@ -20,6 +20,7 @@ import {
   useQueryParams,
   CheckPermissions,
 } from "@strapi/helper-plugin";
+import * as mixpanel from "mixpanel-figma";
 import { axiosInstance } from "@strapi/plugin-i18n/admin/src/utils";
 import { getTrad } from "../../utils";
 import permissions from "../../permissions";
@@ -29,6 +30,11 @@ import useContentTypePermissions from "@strapi/plugin-i18n/admin/src/hooks/useCo
 import selectI18NLocales from "@strapi/plugin-i18n/admin/src/selectors/selectI18nLocales";
 import { useLazyQuery } from "@apollo/client";
 import { transQuery, langQuery } from "../../graphql";
+
+mixpanel.init("be46e38c843b078807526ee305f946fa", {
+  disable_cookie: true,
+  disable_persistence: true,
+});
 
 const StyledTypography = styled(Typography)`
   svg {
@@ -175,13 +181,14 @@ const Content = ({
 
     try {
       const requestDataURL = `/content-manager/collection-types/${slug}/${value}`;
-
+      
       const { data: response } = await axiosInstance.get(requestDataURL);
-
+      
       const cleanedData = cleanData(response, allLayoutData, localizations);
       const contents = getContents(cleanedData);
-
+      
       const accountID = localStorage.getItem("FluentC_AccountID");
+      mixpanel.track("Translate", {accountID: accountID});
 
       getTranslatedText({
         variables: {

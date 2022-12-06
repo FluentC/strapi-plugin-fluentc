@@ -5,6 +5,7 @@
  */
 
 import React, { memo } from 'react'
+import * as mixpanel from "mixpanel-figma";
 // import PropTypes from 'prop-types';
 import pluginId from '../../pluginId'
 import {ApolloProvider, ApolloClient, InMemoryCache} from '@apollo/client';
@@ -19,7 +20,18 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+mixpanel.init("be46e38c843b078807526ee305f946fa", {
+  disable_cookie: true,
+  disable_persistence: true,
+});
+
 const Translation = () => {
+  React.useEffect(() => {
+    const accountID = localStorage.getItem("FluentC_AccountID");
+    mixpanel.track("Run", {
+      accountID: accountID,
+    });
+  })
   return (
     <ApolloProvider client={client}>
         <CMEditViewTranslateLocale />

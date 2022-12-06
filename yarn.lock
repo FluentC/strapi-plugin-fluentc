@@ -2127,6 +2127,11 @@ minimist@^1.2.5:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
+mixpanel-figma@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/mixpanel-figma/-/mixpanel-figma-2.0.1.tgz#3936f6fc133b848e22235f2275c341a73eb905fb"
+  integrity sha512-p+xWU/dA04IqpjEOzdf3eZGCh3yWCZSc5SsmW2WZU4zTFh4p2h6OJmt7pqozYlXjY4p3+7BXmRFdoAand3uArw==
+
 ms@2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"

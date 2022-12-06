@@ -20,8 +20,15 @@ import {
 import { Card, CardBody } from "@strapi/design-system/Card";
 import { Check, Feather } from "@strapi/icons";
 import { useLazyQuery } from "@apollo/client";
+import * as mixpanel from "mixpanel-figma";
 import { fetchApiKeyUsage } from "../../graphql";
 import Register from "./Register";
+import logo from '../../assets/fluentc-logo.png'
+
+mixpanel.init("be46e38c843b078807526ee305f946fa", {
+  disable_cookie: true,
+  disable_persistence: true,
+});
 
 const Setting = () => {
   const [accountID, setAccountID] = useState(
@@ -37,6 +44,7 @@ const Setting = () => {
   const [getApiKeyUsage] = useLazyQuery(fetchApiKeyUsage);
 
   useEffect(() => {
+    mixpanel.track('Entrance to Setting');
     getApiKeyUsage({
       variables: { apiKey: savedAccountID },
     })
@@ -60,6 +68,9 @@ const Setting = () => {
     if (!accountID) {
       return;
     }
+    mixpanel.track('save', {
+      accountID: accountID,
+    });
     localStorage.setItem("FluentC_AccountID", accountID);
     setSavedAccountID(accountID);
   };
@@ -137,7 +148,8 @@ const Setting = () => {
                   }
                 >
                   <img
-                    src="https://crowdflare-staging.nyc3.cdn.digitaloceanspaces.com/delete-fluentc/no-background.png"
+                    // src="https://crowdflare-staging.nyc3.cdn.digitaloceanspaces.com/delete-fluentc/no-background.png"
+                    src={logo}
                     style={{ maxWidth: "100%" }}
                     width={400}
                     alt="logodash"

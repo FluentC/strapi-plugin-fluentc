@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-fluentc",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "FluentC Strapi plugin for translation",
   "strapi": {
     "name": "strapi-plugin-fluentc",
@@ -13,7 +13,8 @@
   "dependencies": {
     "@apollo/client": "^3.7.1",
     "axios": "^0.26.0",
-    "graphql": "^16.6.0"
+    "graphql": "^16.6.0",
+    "mixpanel-figma": "^2.0.1"
   },
   "peerDependencies": {
     "@strapi/plugin-i18n": "^4.1.4",
