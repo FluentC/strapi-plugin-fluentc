@@ -5,8 +5,8 @@ import get from "lodash/get";
 import { useDispatch, useSelector } from "react-redux";
 import { useIntl } from "react-intl";
 import { Dialog, DialogBody, DialogFooter } from "@strapi/design-system/Dialog";
-import { Select, Option } from "@strapi/design-system/Select";
-import { Button } from "@strapi/design-system/Button";
+import { Table, Thead, Tbody, Tr, Td, Th } from '@strapi/design-system';
+import { Button, BaseCheckbox, Select, Option } from "@strapi/design-system";
 import { Box } from "@strapi/design-system/Box";
 import { Divider } from "@strapi/design-system/Divider";
 import { Typography } from "@strapi/design-system/Typography";
@@ -21,6 +21,7 @@ import {
   CheckPermissions,
 } from "@strapi/helper-plugin";
 import * as mixpanel from "mixpanel-figma";
+import { ModalLayout, ModalBody, ModalHeader, ModalFooter } from '@strapi/design-system';
 import { axiosInstance } from "@strapi/plugin-i18n/admin/src/utils";
 import { getTrad } from "../../utils";
 import permissions from "../../permissions";
@@ -30,6 +31,8 @@ import useContentTypePermissions from "@strapi/plugin-i18n/admin/src/hooks/useCo
 import selectI18NLocales from "@strapi/plugin-i18n/admin/src/selectors/selectI18nLocales";
 import { useLazyQuery } from "@apollo/client";
 import { transQuery, langQuery } from "../../graphql";
+
+import logo from '../../assets/fluentc-logo.png'
 
 mixpanel.init("be46e38c843b078807526ee305f946fa", {
   disable_cookie: true,
@@ -106,8 +109,13 @@ const Content = ({
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isTranslatedOpen, setIsTranslatedOpen] = useState(false);
   const [value, setValue] = useState(options[0]?.value || "");
   const [languages, setLanguages] = useState([]);
+
+  //For translate
+  const [translatedContents, setTranslatedContents] = useState([]);
+  const [dataCollection, setDataCollection] = useState(null);
 
   useEffect(() => {
     getLanguages().then((res) => {
@@ -128,7 +136,9 @@ const Content = ({
       })
       .filter((itm) => typeof itm === "string" && itm !== "");
   };
-  const setContents = (cleanedData, res) => {
+  const setContents = () => {
+    const cleanedData = dataCollection;
+    const res = translatedContents.filter(itm => itm.selected);
     const ret = { ...cleanedData };
     const keys = Object.keys(ret);
     console.log('setContents');
@@ -140,9 +150,11 @@ const Content = ({
       }
 
       const idx = res.findIndex((r) => ret[itm] === r.originalText);
-      console.log(res[idx].translatedText);
+      
       if (idx > -1) {
         ret[itm] = res[idx].translatedText;
+      } else {
+        delete ret[itm]
       }
     }
     ['createdBy', 'updatedBy', 'publishedAt', 'id', 'createdAt'].forEach((key) => {
@@ -199,23 +211,15 @@ const Content = ({
         },
       })
         .then((res) => {
-          if (!res.error) {
-            const contents = res.data?.translate?.body;
-            const translatedData = setContents(cleanedData, contents);
-            dispatch({
-              type: "ContentManager/CrudReducer/GET_DATA_SUCCEEDED",
-              data: translatedData,
-            });
-
-            toggleNotification({
-              type: "success",
-              message: {
-                id: getTrad("CMEditViewTranslateLocale.translate-success"),
-                defaultMessage: "Copied and translated from other locale!",
-              },
-            });
+          if (!res.error && res.data?.translate?.body) {
+            const contents = (res.data?.translate?.body || []).map(itm => { return { ...itm, selected: true } });
+            console.log(contents);
+            for (let i = 0; i < contents.length; i ++) contents[i].selected = true;
+            setTranslatedContents(contents)
+            setDataCollection(cleanedData);
+            setIsTranslatedOpen(true);
           } else {
-            showErrNoti(res.error?.message);
+            showErrNoti(res.error?.message || 'Translate failed');
           }
 
           setIsLoading(false);
@@ -235,6 +239,28 @@ const Content = ({
     } 
   };
 
+  const translate = () => {
+    try {
+      const translatedData = setContents();
+      dispatch({
+        type: "ContentManager/CrudReducer/GET_DATA_SUCCEEDED",
+        data: translatedData,
+      });
+
+      toggleNotification({
+        type: "success",
+        message: {
+          id: getTrad("CMEditViewTranslateLocale.translate-success"),
+          defaultMessage: "Copied and translated from other locale!",
+        },
+      });
+      setIsTranslatedOpen(false);
+    } catch (err) {
+      console.log(err);
+      showErrNoti(err.message);
+    }
+  }
+
   const handleChange = (value) => {
     setValue(value);
   };
@@ -247,6 +273,11 @@ const Content = ({
 
     setIsOpen((prev) => !prev);
   };
+
+  const selectValueChanged = (idx, val) => {
+    translatedContents[idx].selected = val;
+    setTranslatedContents([...translatedContents]);
+  }
 
   return (
     <Box paddingTop={6}>
@@ -311,10 +342,7 @@ const Content = ({
           <DialogFooter
             startAction={
               <Button onClick={handleToggle} variant="tertiary">
-                {formatMessage({
-                  id: "popUpWarning.button.cancel",
-                  defaultMessage: "No, cancel",
-                })}
+                Cancel
               </Button>
             }
             endAction={
@@ -323,14 +351,61 @@ const Content = ({
                 onClick={handleConfirmCopyLocale}
                 loading={isLoading}
               >
-                {formatMessage({
-                  id: getTrad("CMEditViewTranslateLocale.submit-text"),
-                  defaultMessage: "Yes, fill in",
-                })}
+                Translate
               </Button>
             }
           />
         </Dialog>
+      )}
+      {isTranslatedOpen && (
+        <ModalLayout onClose={() => setIsTranslatedOpen(false)} labelledBy="title">
+        <ModalHeader>
+          <Flex>
+            <img
+              src={logo}
+              style={{ maxWidth: "100%" }}
+              width={100}
+              alt="logodash"
+            />
+            {/* <Typography fontWeight="bold" textColor="neutral800" as="h2" id="title">
+              Translated Content
+            </Typography> */}
+          </Flex>
+        </ModalHeader>
+        <ModalBody style={{padding: '10px'}}>
+          <Table style={{ width: '100%' }} colCount={3} rowCount={translatedContents.length}>
+            <Thead>
+              <Tr>
+                <Th><></></Th>
+                <Th>
+                  <Typography variant="omega" fontWeight="bold">Original Text</Typography>
+                </Th>
+                <Th>
+                  <Typography variant="omega" fontWeight="bold">Translated Text</Typography>
+                </Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {translatedContents.map((itm, idx) => <Tr key={idx}>
+                <Td>
+                  <BaseCheckbox value={itm.selected} onValueChange={(val) => selectValueChanged(idx, val)} />
+                </Td>
+                <Td>
+                  <Typography style={{whiteSpace: 'break-spaces'}} textColor="neutral800">{itm.originalText}</Typography>
+                </Td>
+                <Td>
+                  <Typography style={{whiteSpace: 'break-spaces'}} textColor="neutral800">{itm.translatedText}</Typography>
+                </Td>
+              </Tr>)}
+            </Tbody>
+          </Table>
+        </ModalBody>
+        <ModalFooter startActions={<Button onClick={() => setIsTranslatedOpen(false)} variant="tertiary">
+              Cancel
+            </Button>} endActions={<>
+              <Button onClick={translate}>Fill in</Button>
+            </>} />
+        </ModalLayout>
       )}
     </Box>
   );

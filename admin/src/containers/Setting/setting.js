@@ -89,6 +89,11 @@ const Setting = () => {
     toggleShowModal();
   };
 
+  const openDashboard = () => {
+    mixpanel.track('Move to Dashboard');
+    window.open('https://dashboard.fluentc.io#strapi', '_blank');
+  }
+
   return (
     <>
       <Box background="neutral100">
@@ -106,7 +111,7 @@ const Setting = () => {
                 <Button
                   startIcon={<Feather />}
                   margin={3}
-                  onClick={toggleShowModal}
+                  onClick={openDashboard}
                 >
                   Register
                 </Button>
