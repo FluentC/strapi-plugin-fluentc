@@ -1,1 +1,3 @@
-FluentC StrApi Plugin
+# FluentC Strapi Plugin
+
+The FluentC Strapi Translation plugin provides an easy and efficient way to localize content in the popular Strapi content management system. It allows users to select the desired language for their content and quickly translate it into multiple languages. The plugin is powered by FluentC's advanced translation engine, which ensures a fast and accurate translation of the text. It also supports multiple languages, allowing users to create content in multiple languages. The plugin's free trial is easy to install, making it the ideal solution for companies looking to make their content available in multiple languages.
