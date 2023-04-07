@@ -21,6 +21,36 @@ $ npm run build && npm run develop
 $ yarn build && yarn develop
 ```
 
+## Configuration
+
+Overall plugin configuration
+
+    The overall plugin configurtion is done through config[/env]/plugins.js or environment variables
+
+```
+module.exports = {
+    'strapi-plugin-fluentc': {
+        enabled: true,
+        resolve: './src/plugins/FluentC',
+        config: {
+          apiKey: 'key',
+          freeApi: true,
+          translatedFieldTypes: [
+            'string',
+            'text',
+            'richtext',
+            'component',
+            'dynamiczone',
+          ],
+          translateRelations: true,
+          glossaryId: 'customGlossary',
+        },
+    },
+}
+```
+
+---
+
 ## Using Strapi the Plugin
 
 **1. Click "Settings"**
@@ -45,8 +75,7 @@ $ yarn build && yarn develop
 
 **6. Click on an entry**
 
-![](https://image.scribehow-prod.com/VYzh5W6BEFUM_b1CpdIJZLDykmOoDuuc1mQkRp7Ryw
-w/zoom:0.7506702412868632/enlarge:true/crop:746:420:nowe:419:97/wm:0.8:nowe:255:132:0.17857142857142858/aHR0cHM6Ly9jb2xvbnktcmVjb3JkZXIuczMuYW1hem9uYXdzLmNvbS9maWxlcy8yMDIyLTEyLTExLzdmNDVkNjBhLTBlNDMtNDc1Yy04M2JlLWNmNjcxMjE0Yjc0MC9hc2NyZWVuc2hvdC5qcGVn)
+![](https://image.scribehow-prod.com/VYzh5W6BEFUM_b1CpdIJZLDykmOoDuuc1mQkRp7Ryww/zoom:0.7506702412868632/enlarge:true/crop:746:420:nowe:419:97/wm:0.8:nowe:255:132:0.17857142857142858/aHR0cHM6Ly9jb2xvbnktcmVjb3JkZXIuczMuYW1hem9uYXdzLmNvbS9maWxlcy8yMDIyLTEyLTExLzdmNDVkNjBhLTBlNDMtNDc1Yy04M2JlLWNmNjcxMjE0Yjc0MC9hc2NyZWVuc2hvdC5qcGVn)
 
 **7. Click the "Locales" dropdown.**
 
@@ -54,8 +83,7 @@ w/zoom:0.7506702412868632/enlarge:true/crop:746:420:nowe:419:97/wm:0.8:nowe:255:
 
 **8. Choose the desired locale to be translated.**
 
-![](https://image.scribehow-prod.com/TlyczEMauMICkIeBnL_7Ot127qnNoUSJgikk0CmZ7hE/zoom:0.7506702412868632/enlarge:true/crop:746:420:nowe:1072:422/wm:0.8:nowe:35
-5:132:0.17857142857142858/aHR0cHM6Ly9jb2xvbnktcmVjb3JkZXIuczMuYW1hem9uYXdzLmNvbS9maWxlcy8yMDIyLTEyLTExL2JlOGIyM2Y0LTU3MDUtNGZkOC05ZTQ1LTBmMWE2NmVlMzg3Mi9hc2NyZWVuc2hvdC5qcGVn)
+![](https://image.scribehow-prod.com/TlyczEMauMICkIeBnL_7Ot127qnNoUSJgikk0CmZ7hE/zoom:0.7506702412868632/enlarge:true/crop:746:420:nowe:1072:422/wm:0.8:nowe:355:132:0.17857142857142858/aHR0cHM6Ly9jb2xvbnktcmVjb3JkZXIuczMuYW1hem9uYXdzLmNvbS9maWxlcy8yMDIyLTEyLTExL2JlOGIyM2Y0LTU3MDUtNGZkOC05ZTQ1LTBmMWE2NmVlMzg3Mi9hc2NyZWVuc2hvdC5qcGVn)
 
 **9. Click " Translate from another locale".**
 
@@ -63,8 +91,7 @@ w/zoom:0.7506702412868632/enlarge:true/crop:746:420:nowe:419:97/wm:0.8:nowe:255:
 
 **10. Choose the language to be translated from.**
 
-![](https://image.scribehow-prod.com/29zyhUAyzIRGrEjO8aeT1MbW4JQ7bEvqOIzde_tGVSo/zoom:0.7506702412868632/enlarge:true/crop:746:420:nowe:657:197/wm:0.8:nowe:255:132:0.17857142857142858/aHR0cHM6Ly9jb2xvbnktcmVjb3JkZXIuczMuYW1hem9uYXdzLmNvbS9
-maWxlcy8yMDIyLTEyLTExLzNiODM3ZDJiLTcxY2ItNDhlNy1iOGVhLWYzMDM1OTExMjZlZC9hc2NyZWVuc2hvdC5qcGVn)
+![](https://image.scribehow-prod.com/29zyhUAyzIRGrEjO8aeT1MbW4JQ7bEvqOIzde_tGVSo/zoom:0.7506702412868632/enlarge:true/crop:746:420:nowe:657:197/wm:0.8:nowe:255:132:0.17857142857142858/aHR0cHM6Ly9jb2xvbnktcmVjb3JkZXIuczMuYW1hem9uYXdzLmNvbS9maWxlcy8yMDIyLTEyLTExLzNiODM3ZDJiLTcxY2ItNDhlNy1iOGVhLWYzMDM1OTExMjZlZC9hc2NyZWVuc2hvdC5qcGVn)
 
 **11. Click "Translate"**
 
@@ -72,8 +99,7 @@ maWxlcy8yMDIyLTEyLTExLzNiODM3ZDJiLTcxY2ItNDhlNy1iOGVhLWYzMDM1OTExMjZlZC9hc2NyZWV
 
 **12. Select values to be translated and copied into the entry.**
 
-![](https://image.scribehow-prod.com/aMfb94mdsj4Z7y2VvS8EqCZ8FbS4q-tAVgXbnGz-cq0/zoom:0.7506702412868632/enlarge:true/crop:746:420:nowe:240:282/wm:0:nowe:255:132:0.17857142857142858/aHR0cHM6Ly9jb2xvbnktcmVjb3JkZXIuczMuYW1hem9uYXdzLmNvbS9maWxlcy8yMDIyLTEyLTExLzA5NmQwYzJiLTU3YzgtNDY4Yi05ZDYyLWJhMjgwNjY0YzU5MC9zY3JlZW5za
-G90LnBuZw)
+![](https://image.scribehow-prod.com/aMfb94mdsj4Z7y2VvS8EqCZ8FbS4q-tAVgXbnGz-cq0/zoom:0.7506702412868632/enlarge:true/crop:746:420:nowe:240:282/wm:0:nowe:255:132:0.17857142857142858/aHR0cHM6Ly9jb2xvbnktcmVjb3JkZXIuczMuYW1hem9uYXdzLmNvbS9maWxlcy8yMDIyLTEyLTExLzA5NmQwYzJiLTU3YzgtNDY4Yi05ZDYyLWJhMjgwNjY0YzU5MC9zY3JlZW5zaG90LnBuZw)
 
 **13. Click "Fill in"**
 
