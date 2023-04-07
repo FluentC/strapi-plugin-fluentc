@@ -1,10 +1,10 @@
 {
   "name": "strapi-plugin-fluentc",
-  "version": "1.0.12",
+  "version": "1.0.5",
   "description": "FluentC Strapi plugin for translation",
   "strapi": {
     "name": "strapi-plugin-fluentc",
-    "description": "The fastest way to go from prototype to product in 75 languages.",
+    "description": "FluentC Strapi plugin for translation",
     "kind": "plugin"
   },
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "maintainers": [],
   "engines": {
-    "node": ">=14 <=16",
+    "node": ">=14",
     "npm": ">=6.0.0"
   },
   "license": "MIT",

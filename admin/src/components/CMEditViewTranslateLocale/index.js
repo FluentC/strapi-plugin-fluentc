@@ -20,10 +20,9 @@ import {
   useQueryParams,
   CheckPermissions,
 } from "@strapi/helper-plugin";
-import * as mixpanel from "mixpanel-figma";
 import { ModalLayout, ModalBody, ModalHeader, ModalFooter } from '@strapi/design-system';
 import { axiosInstance } from "@strapi/plugin-i18n/admin/src/utils";
-import { getTrad } from "../../utils";
+import { getTrad, track } from "../../utils";
 import permissions from "../../permissions";
 import cleanData from "./utils/cleanData";
 import { generateOptions } from "@strapi/plugin-i18n/admin/src/components/CMEditViewInjectedComponents/CMEditViewCopyLocale/utils";
@@ -33,11 +32,6 @@ import { useLazyQuery } from "@apollo/client";
 import { transQuery, langQuery } from "../../graphql";
 
 import logo from '../../assets/fluentc-logo.png'
-
-mixpanel.init("be46e38c843b078807526ee305f946fa", {
-  disable_cookie: true,
-  disable_persistence: true,
-});
 
 const StyledTypography = styled(Typography)`
   svg {
@@ -200,7 +194,7 @@ const Content = ({
       const contents = getContents(cleanedData);
       
       const accountID = localStorage.getItem("FluentC_AccountID");
-      mixpanel.track("Translate", {accountID: accountID});
+      track("Translate", {accountID: accountID});
 
       getTranslatedText({
         variables: {
@@ -229,11 +223,6 @@ const Content = ({
           showErrNoti(err.message);
           setIsLoading(false);
         });
-
-      // FIXME: Two issues here
-      // - Date/time field is only shown with value after save
-      // - The dispatch updates not just modified data but also the initial data
-      //   -> Saving is impossible until manual modification if object already existed
     } catch (err) {
       setIsLoading(false);
     } 

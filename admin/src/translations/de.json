@@ -1,17 +1,2 @@
 {
-  "CMEditViewTranslateLocale.translate-success": "Erfolgreich von anderer Sprache kopiert und übersetzt!",
-  "CMEditViewTranslateLocale.translate-failure": "Übersetzung fehlgeschlagen",
-  "CMEditViewTranslateLocale.translate-text": "Von einer anderen Sprache übersetzen",
-  "CMEditViewTranslateLocale.ModalConfirm.content": "Ihr Inhalt wird gelöscht und mit der automatisch übersetzten Version der ausgewählten Sprache übersetzt:",
-  "CMEditViewTranslateLocale.submit-text": "Ja, übersetzen",
-  "plugin.name": "FluentC",
-  "Settings.locales.modal.locales.label": "Sprachen",
-  "popUpWarning.button.cancel": "Nein, abbrechen",
-  "fluentc.error.badRequest": "Anfrage zur FluentC API nicht korrekt",
-  "fluentc.error.forbidden": "Autorisierung bei FluentC API fehlgeschlagen",
-  "fluentc.error.notFound": "Angeforderte Ressource nicht in der FluentC API gefunden",
-  "fluentc.error.payloadTooLarge": "Die Anfragegröße überschreitet das Limit in FluentC API",
-  "fluentc.error.uriTooLong": "URI zu lang in FluentC API",
-  "fluentc.error.tooManyRequests": "Zu viele Anfragen an FluentC API",
-  "fluentc.error.paymentRequired": "Das Kontingent von FluentC API ist überschritten"
 }

@@ -7,28 +7,20 @@
 import React, { memo, useState, useEffect } from "react";
 // import PropTypes from 'prop-types';
 import {
-  ModalLayout,
   Box,
   BaseHeaderLayout,
   TextInput,
   Button,
-  Icon,
   Flex,
   Typography,
   ProgressBar,
 } from "@strapi/design-system";
 import { Card, CardBody } from "@strapi/design-system/Card";
-import { Check, Feather } from "@strapi/icons";
+import { Check, Feather, Star } from "@strapi/icons";
 import { useLazyQuery } from "@apollo/client";
-import * as mixpanel from "mixpanel-figma";
 import { fetchApiKeyUsage } from "../../graphql";
-import Register from "./Register";
 import logo from '../../assets/fluentc-logo.png'
-
-mixpanel.init("be46e38c843b078807526ee305f946fa", {
-  disable_cookie: true,
-  disable_persistence: true,
-});
+import { track } from "../../utils";
 
 const Setting = () => {
   const [accountID, setAccountID] = useState(
@@ -37,14 +29,13 @@ const Setting = () => {
   const [savedAccountID, setSavedAccountID] = useState(
     localStorage.getItem("FluentC_AccountID") || ""
   );
-  const [currentUsage, setCurrentUsage] = useState(10);
-  const [maxUsage, setMaxUsage] = useState(100);
+  const [currentUsage, setCurrentUsage] = useState(0);
+  const [maxUsage, setMaxUsage] = useState(0);
   const [tier, setTier] = useState("");
-  const [showModal, setShowModal] = useState(false);
   const [getApiKeyUsage] = useLazyQuery(fetchApiKeyUsage);
 
   useEffect(() => {
-    mixpanel.track('Entrance to Setting');
+    track('Open ApiKey');
     getApiKeyUsage({
       variables: { apiKey: savedAccountID },
     })
@@ -68,38 +59,27 @@ const Setting = () => {
     if (!accountID) {
       return;
     }
-    mixpanel.track('save', {
-      accountID: accountID,
-    });
+    track('save', { accountID: accountID });
     localStorage.setItem("FluentC_AccountID", accountID);
     setSavedAccountID(accountID);
-  };
-
-  const toggleShowModal = () => {
-    setShowModal(!showModal);
-  };
-
-  const setNewAccountID = (accountID) => {
-    if (!accountID) {
-      return;
-    }
-    localStorage.setItem("FluentC_AccountID", accountID);
-    setSavedAccountID(accountID);
-    setAccountID(accountID);
-    toggleShowModal();
   };
 
   const openDashboard = () => {
-    mixpanel.track('Move to Dashboard');
+    track('Click Register');
     window.open('https://dashboard.fluentc.io#strapi', '_blank');
+  }
+
+  const openUpgrade = () => {
+    track('Click Upgrade');
+    window.open('https://dashboard.fluentc.io/billing', '_blank');
   }
 
   return (
     <>
       <Box background="neutral100">
         <BaseHeaderLayout
-          title="FluentC"
-          subtitle="FluentC account setting"
+          title="API Key"
+          subtitle="Configure your FluentC API Key"
           as="h2"
         />
       </Box>
@@ -108,13 +88,20 @@ const Setting = () => {
           <CardBody>
             <Box style={{ width: "100%" }}>
               <Flex padding={3} gap={3} justifyContent="flex-end">
-                <Button
-                  startIcon={<Feather />}
-                  margin={3}
-                  onClick={openDashboard}
-                >
-                  Register
-                </Button>
+                { tier ? <Button
+                    startIcon={<Star />}
+                    margin={3}
+                    onClick={openUpgrade}
+                  >
+                    Upgrade
+                  </Button> : <Button
+                    startIcon={<Feather />}
+                    margin={3}
+                    onClick={openDashboard}
+                  >
+                    Register
+                  </Button>
+                }
                 <Button
                   disabled={accountID === savedAccountID || !accountID}
                   startIcon={<Check />}
@@ -123,23 +110,23 @@ const Setting = () => {
                   Save
                 </Button>
               </Flex>
-              {(tier === "SUPERLIMITED" || tier === "LIMITED") && (
+              {/* {(tier === "SUPERLIMITED" || tier === "LIMITED") && ( */}
                 <Box padding={3} style={{ width: "100%" }}>
                   <Typography variant="sigma">
-                    Current Usage ({currentUsage} / {maxUsage})
+                    Current Usage ({currentUsage} / {(tier === "PAYED") ? "Unlimited" : maxUsage})
                   </Typography>
                   <ProgressBar
-                    value={(currentUsage / maxUsage) * 100}
+                    value={!maxUsage ? 0 : (currentUsage / maxUsage) * 100}
                     style={{ width: "100%" }}
                   >
-                    {currentUsage} / {maxUsage}
+                    Current Usage
                   </ProgressBar>
                 </Box>
-              )}
+              {/* )} */}
               <Box padding={3} style={{ width: "100%" }}>
                 <TextInput
                   placeholder="Please input AccountID"
-                  label="AccountID"
+                  label="API Key"
                   name="accountid"
                   error={accountID ? "" : "* AccountID is required!"}
                   onChange={accountIDChanged}
@@ -177,19 +164,6 @@ const Setting = () => {
           </CardBody>
         </Card>
       </Box>
-      {showModal && (
-        <ModalLayout
-          onClose={() => toggleShowModal((prev) => !prev)}
-          labelledBy="title"
-          style={{ width: "600px", height: "400px" }}
-        >
-          <Register
-            setAccountID={setNewAccountID}
-            accountID={savedAccountID}
-            close={toggleShowModal}
-          />
-        </ModalLayout>
-      )}
     </>
   );
 };

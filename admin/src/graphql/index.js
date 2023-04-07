@@ -24,17 +24,6 @@ export const langQuery = gql`
     }
 `;
 
-export const fetchApiKeyQuery = gql`
-    query fetchApiKeyQuery {
-        fetchNewApiKey {
-            apiKey
-            currentUsage
-            maxUsage
-            tier
-        }
-    }
-`;
-
 export const fetchApiKeyUsage = gql`
     query fetchApiKeyUsage($apiKey: String!) {
         fetchApiKeyUsage(apiKey: $apiKey) {
@@ -52,46 +41,6 @@ export const contentQuery = gql`
             body {
                 key
                 value
-            }
-        }
-    }
-`;
-
-export const fetchNewApiKeyQuery = gql`
-    query fetchNewApiKey($vendorID: String!, $venderName: String!) {
-        fetchNewApiKey(vendor: "figma", vendorID: $vendorID, vendorName: $venderName) {
-            apiKey
-            currentUsage
-            maxUsage
-            tier
-        }
-    }
-`;
-
-export const registerQuery = gql`
-    query registerUser($password: String!, $email: String!) {
-        registerUser(password: $password, email: $email) {
-            success
-        }
-    }
-`;
-
-export const confirmQuery = gql`
-    query confirmUser($confirmCode: String!, $email: String!) {
-        confirmUser(confirmationCode: $confirmCode, email: $email) {
-            success
-        }
-    }
-`;
-
-export const fetchUserTokensQuery = gql`
-    query fetchUserTokens($email: String!) {
-        fetchUserTokens(email: $email) {
-            tokens {
-                apiKey
-                currentUsage
-                maxUsage
-                tier
             }
         }
     }

@@ -13,19 +13,30 @@ export default {
         id: pluginId,
         intlLabel: {
           id: `${pluginId}.plugin.name`,
-          defaultMessage: 'Todo',
+          defaultMessage: 'FluentC Plugin',
         },
       },
       [
         {
           intlLabel: {
             id: `${pluginId}.plugin.name`,
-            defaultMessage: 'General settings',
+            defaultMessage: 'API Key',
           },
           id: 'settings',
-          to: `/settings/${pluginId}`,
+          to: `/settings/${pluginId}/apikey`,
           Component: async () => {
             return import('./containers/Setting');
+          },
+        },
+        {
+          intlLabel: {
+            id: `${pluginId}.plugin.name`,
+            defaultMessage: 'Tracking',
+          },
+          id: 'tracking',
+          to: `/settings/${pluginId}/tracking`,
+          Component: async () => {
+            return import('./containers/Setting/tracking');
           },
         },
       ]
