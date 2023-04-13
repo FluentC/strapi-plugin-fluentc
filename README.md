@@ -31,10 +31,8 @@ Overall plugin configuration
 module.exports = {
     'strapi-plugin-fluentc': {
         enabled: true,
-        resolve: './src/plugins/FluentC',
         config: {
           apiKey: 'key',
-          freeApi: true,
           translatedFieldTypes: [
             'string',
             'text',
